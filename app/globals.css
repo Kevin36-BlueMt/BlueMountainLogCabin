@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================
+   Base Typography & Layout
+   =========================== */
+
+body {
+  @apply text-stone-900 antialiased;
+}
+
+/* Remove default background so our custom background shows */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+/* Ensure the Next root fills viewport */
+#__next {
+  min-height: 100vh;
+}
+
+/* Global box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Smooth scrolling for in-page links */
+html {
+  scroll-behavior: smooth;
+}
+/* Improve global text readability */
+body, .page-overlay {
+  color: #1c1c1c; /* near black */
+}
+
+.text-stone-600 {
+  color: #2b2b2b !important; /* stronger grey */
+}
+
+.text-stone-700 {
+  color: #1f1f1f !important;
+}
+
+.text-stone-800, .text-stone-900 {
+  color: #111111 !important;
+}
+
+
+/* ===========================
+   Cohesive Background System
+   =========================== */
+/*
+  This assumes your top-level wrapper in app/page.js is:
+
+  <div className="page-bg min-h-screen text-stone-900">
+    <div className="page-overlay min-h-screen">
+      ...rest of content...
+    </div>
+  </div>
+
+  If you don’t have that yet, you can add it later.
+*/
+
+/* Single cohesive background image for the whole page */
+.page-bg {
+  position: relative;
+  min-height: 100vh;
+  background-image: url("/images/night-forest-1.avif");
+  background-size: cover;           /* fills screen without weird zooming */
+  background-position: center top;  /* shows more of the forest/sky */
+  background-repeat: no-repeat;
+  background-attachment: fixed;     /* subtle parallax on desktop */
+}
+
+/* Mobile tweak: fixed backgrounds can be janky on phones */
+@media (max-width: 768px) {
+  .page-bg {
+    background-attachment: scroll;
+    background-position: center;
+  }
+}
+
+/* Cinematic gradient + vignette over the background image */
+.page-bg::before {
+  content: "";
+  position: fixed;  /* stays in place while content scrolls */
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    radial-gradient(
+      ellipse at top,
+      rgba(0, 0, 0, 0.35) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at bottom,
+      rgba(0, 0, 0, 0.38) 0%,
+      transparent 60%
+    );
+}
+
+/* Main translucent overlay so content is readable,
+   but background stays visible and clear */
+.page-overlay {
+  position: relative;
+  min-height: 100vh;
+  z-index: 1;
+
+  /* Less blur, more clarity */
+  backdrop-filter: blur(1px);
+
+  /* Slightly lighter white overlay for translucence */
+  background: rgba(255, 255, 255, 0.26);
+}
+
+/* If you want even clearer background later:
+   .page-overlay {
+     backdrop-filter: none;
+     background: rgba(255, 255, 255, 0.22);
+   }
+*/
+
+/* ===========================
+   Optional Utility Styles
+   =========================== */
+
+/* “Glass” card background (if you want frosted panels) */
+.card-bg {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(4px);
+}
+
+/* Soft gold divider line (can be used between sections) */
+.divider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(217, 151, 52, 0.7),
+    transparent
+  );
+}
+
+/* Navbar floating effect if you add a ‘navbar-blur’ class */
+.navbar-blur {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+/* Optional hero gradient utility if you want to layer over images */
+.hero-gradient {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.15),
+    transparent
+  );
+}
+
+/* Slight shadow helper */
+.shadow-soft {
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.2);
+}
